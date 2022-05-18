@@ -1,0 +1,31 @@
+.country-card {
+  background-color: #e9ecef;
+  padding: 1rem;
+  width: fit-content;
+  border: 1px solid #ced4da;
+  border-radius: 0.5rem;
+
+  &-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ced4da;
+  }
+
+  &__flag {
+    font-size: 6.2rem;
+    display: flex;
+    padding: 0 0.6rem;
+    background-color: #fff;
+    border-right: 1px solid #ced4da;
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #f8f9fa;
+    padding: 0.2rem 1rem;
+    padding-right: 6.8rem;
+  }
+}
