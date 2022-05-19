@@ -1,7 +1,6 @@
 .country-card {
   background-color: #e9ecef;
   padding: 1rem;
-  width: fit-content;
   border: 1px solid #ced4da;
   border-radius: 0.5rem;
 
@@ -12,11 +11,13 @@
   }
 
   &__flag {
-    font-size: 6.2rem;
+    font-size: 8.2rem;
     display: flex;
-    padding: 0 0.6rem;
+    align-items: center;
+    padding: 0 1.6rem;
     background-color: #fff;
     border-right: 1px solid #ced4da;
+    min-height: 10rem;
   }
 
   &__text {
@@ -27,5 +28,7 @@
     background-color: #f8f9fa;
     padding: 0.2rem 1rem;
     padding-right: 6.8rem;
+    width: 100%;
+    min-height: 10rem;
   }
 }

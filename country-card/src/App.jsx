@@ -6,12 +6,14 @@ import countryApi from './api/countryApi';
 
 const App = () => {
   const [countries, setCountries] = useState([]);
+  const [totalCountries, setTotalCountries] = useState(0);
 
   useEffect(() => {
     const getCountries = async () => {
       const { data } = await countryApi.get('/capital');
 
       setCountries(data.data);
+      setTotalCountries(data.data.length);
     };
 
     getCountries();
@@ -31,7 +33,7 @@ const App = () => {
 
   return (
     <div className='app'>
-      <Pagination />
+      <Pagination totalCountries={totalCountries} />
       <div className='countries-list-container'>{renderedCountries()}</div>
     </div>
   );
