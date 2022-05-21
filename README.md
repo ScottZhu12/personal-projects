@@ -8,8 +8,4 @@
 
 ### Features of this project:
 
-### • increase/decrease the current number by 1
-
-### • change the current number by entered amount
-
-### • reset current number and app states
+#### • increase/decrease the current number by 1 <br />• change the current number by entered amount <br />• reset current number and app states
