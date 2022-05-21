@@ -1,3 +1,0 @@
-# Personal projects
-
-## Country card
