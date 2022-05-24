@@ -15,3 +15,11 @@
 #### • add a new post with title, content, and user to the existing post list <br />• view the entire list in a sorted way (from the newest created to the oldest created) <br />• interactive reaction buttons with each post, such as liking the post...
 
 ##### Live: https://scottzhu-blog-post.netlify.app/
+
+## Blog-Post-Async-V1
+
+### A simple blog-post project implemented with react, redux-toolkit, date-fns, axios, JSONPLACEHOLDER.<br />Features of this project:
+
+#### • all features from Blog-Post project <br /> • fetch a list of posts from online server JSONPLACEHOLDER <br /> • post a new blog-post to the existing list and display the new list
+
+##### Live: https://scottzhu-blog-async-v1.netlify.app/
