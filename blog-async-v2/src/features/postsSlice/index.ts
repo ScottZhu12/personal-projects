@@ -25,9 +25,35 @@ export const fetchPosts = createAsyncThunk('posts/fetchPosts', async () => {
       return err.message;
     }
 
-    console.error('An unknown error occurred', err);
+    return 'An unknown error occurred';
   }
 });
+
+type NewPostType = {
+  title: string;
+  body: string;
+  userId: string;
+};
+
+export const addNewPost = createAsyncThunk(
+  'posts/addNewPost',
+  async (initialPost: NewPostType) => {
+    try {
+      const res = await jsonPlaceholderApi.post<renderedPostsProps>(
+        '/posts',
+        initialPost
+      );
+
+      return res.data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        return err.message;
+      }
+
+      return 'An unknown error occurred';
+    }
+  }
+);
 
 export interface PostsReactionsProps {
   thumbsUp: number;
@@ -104,6 +130,23 @@ const postsSlice = createSlice({
         const errorMessage = action.error.message || 'unknown error occurred';
 
         state.error = errorMessage;
+      })
+      .addCase(addNewPost.fulfilled, (state, action) => {
+        const newPost = action.payload;
+
+        if (typeof newPost !== 'string') {
+          newPost.userId = Number(newPost.userId);
+          newPost.date = new Date().toISOString();
+          newPost.reactions = {
+            thumbsUp: 0,
+            wow: 0,
+            heart: 0,
+            rocket: 0,
+            coffee: 0,
+          };
+
+          state.posts.push(newPost);
+        }
       });
   },
 });
