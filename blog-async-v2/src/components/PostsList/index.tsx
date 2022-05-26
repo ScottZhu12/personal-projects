@@ -1,20 +1,13 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { useAppSelector, useAppDispatch } from '../../app/hooks';
-import { fetchPosts } from '../../features/postsSlice';
+import { useAppSelector } from '../../app/hooks';
+
 import PostsExcerpt from '../PostsExcerpt';
 
 const PostsList: React.FC = () => {
-  const dispatch = useAppDispatch();
   const posts = useAppSelector((state) => state.posts.posts);
   const postsStatus = useAppSelector((state) => state.posts.status);
   const postsError = useAppSelector((state) => state.posts.error);
-
-  useEffect(() => {
-    if (postsStatus === 'idle') {
-      dispatch(fetchPosts());
-    }
-  }, [postsStatus, dispatch]);
 
   let content;
 

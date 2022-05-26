@@ -23,3 +23,11 @@
 #### • all features from Blog-Post project <br /> • fetch a list of posts from online server JSONPLACEHOLDER <br /> • post a new blog-post to the existing list and display the new list
 
 ##### Live: https://scottzhu-blog-async-v1.netlify.app/
+
+## Blog-Post-Async-V2
+
+### A simple blog-post project implemented with react, redux-toolkit, date-fns, axios, JSONPLACEHOLDER, React-Router V6.<br />Features of this project:
+
+#### • all features from Blog-Post-Async-V1 project <br /> • view a single post <br /> • edit the selected post <br /> • delete the selected post
+
+##### Live: https://scottzhu-blog-async-v2.netlify.app/

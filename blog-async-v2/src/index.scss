@@ -172,3 +172,65 @@ button {
   color: #f6f6f6;
   padding: 0;
 }
+
+.post-detail-link,
+.post-edit-link {
+  margin-top: 1rem;
+
+  & * {
+    color: #f6f6f6;
+    font-size: 1.4rem;
+  }
+}
+
+.header {
+  background-color: #862e9c;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+
+  & > h1 {
+    color: #212529;
+    font-size: 4.8rem;
+  }
+
+  &__nav-link {
+    display: flex;
+    gap: 2rem;
+
+    &__item {
+      & * {
+        font-size: 2.8rem;
+        text-decoration: none;
+        color: #74c0fc;
+      }
+
+      &--active {
+        & * {
+          color: #ff6b6b;
+        }
+      }
+    }
+  }
+}
+
+.single-post-page {
+  width: 80vw;
+  margin: 2rem auto;
+}
+
+.edit-post-form {
+  width: 80vw;
+  margin: 2rem auto;
+
+  & > h2 {
+    font-size: 4.8rem;
+  }
+
+  & .btn-delete {
+    background-color: #c92a2a;
+    color: #f6f6f6;
+    border: none;
+  }
+}

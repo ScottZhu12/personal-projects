@@ -55,6 +55,65 @@ export const addNewPost = createAsyncThunk(
   }
 );
 
+interface UpdatedPostProps {
+  id: number;
+  title: string;
+  body: string;
+  userId: string;
+  reactions: PostsReactionsProps;
+}
+
+export const updatePost = createAsyncThunk(
+  'posts/updatePost',
+  async (initialPost: UpdatedPostProps) => {
+    const { id } = initialPost;
+
+    try {
+      const res = await jsonPlaceholderApi.put<renderedPostsProps>(
+        `/posts/${id}`,
+        initialPost
+      );
+
+      return res.data;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        return err.message;
+      }
+
+      return 'An unknown error occurred';
+    }
+  }
+);
+
+interface DeletedPostProps {
+  id: number;
+}
+
+export const deletePost = createAsyncThunk(
+  'posts/deletePost',
+  async (initialPost: DeletedPostProps) => {
+    const { id } = initialPost;
+
+    try {
+      const res = await jsonPlaceholderApi.delete<renderedPostsProps>(
+        `/posts/${id}`
+      );
+
+      if (res.status === 200) {
+        return initialPost;
+      }
+
+      return `${res.status}: ${res.statusText}`;
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        return err.message;
+      }
+
+      return 'An unknown error occurred';
+    }
+  }
+);
+
 export interface PostsReactionsProps {
   thumbsUp: number;
   wow: number;
@@ -147,6 +206,30 @@ const postsSlice = createSlice({
 
           state.posts.push(newPost);
         }
+      })
+      .addCase(updatePost.fulfilled, (state, action) => {
+        if (typeof action.payload === 'string') {
+          console.log('Update could not complete');
+          console.log(action.payload);
+          return;
+        }
+
+        const { id } = action.payload;
+        action.payload.date = new Date().toISOString();
+        action.payload.userId = Number(action.payload.userId);
+        const posts = state.posts.filter((post) => post.id !== id);
+        state.posts = [...posts, action.payload];
+      })
+      .addCase(deletePost.fulfilled, (state, action) => {
+        if (typeof action.payload === 'string') {
+          console.log('Delete could not complete');
+          console.log(action.payload);
+          return;
+        }
+
+        const { id } = action.payload;
+        const posts = state.posts.filter((post) => post.id !== id);
+        state.posts = posts;
       });
   },
 });

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { addNewPost } from '../../features/postsSlice';
@@ -6,6 +7,7 @@ import { addNewPost } from '../../features/postsSlice';
 const AddPostForm: React.FC = () => {
   const dispatch = useAppDispatch();
   const users = useAppSelector((state) => state.users);
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [userId, setUserId] = useState('');
@@ -38,16 +40,17 @@ const AddPostForm: React.FC = () => {
       try {
         setAddRequestStatus('pending');
         dispatch(addNewPost({ title, body: content, userId })).unwrap();
+
+        setTitle('');
+        setUserId('');
+        setContent('');
+        navigate('/');
       } catch (err) {
         console.error('Failed to save the post', err);
       } finally {
         setAddRequestStatus('idle');
       }
     }
-
-    setTitle('');
-    setUserId('');
-    setContent('');
   };
 
   return (
@@ -69,12 +72,7 @@ const AddPostForm: React.FC = () => {
 
         <div className='post-form__field'>
           <label htmlFor='postAuthor'>Author:</label>
-          <select
-            name='postAuthor'
-            id='postAuthor'
-            value={userId}
-            onChange={onAuthorChanged}
-          >
+          <select name='postAuthor' id='postAuthor' onChange={onAuthorChanged}>
             <option value=''></option>
             {usersOptions}
           </select>
