@@ -10,8 +10,66 @@
   align-items: center;
 
   &-content {
-    background-color: #f6f6f6;
-    padding: 1rem 2rem;
+    background-color: rgb(221, 229, 237);
+    padding: 2rem 1rem;
     position: relative;
+    border-radius: 0.3rem;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    &__close {
+      position: absolute;
+      top: -3.6rem;
+      right: 0;
+      width: 3rem;
+      height: 3rem;
+      background-color: #e9ecef;
+      padding: 0.3rem;
+      border-radius: 0.3rem;
+      cursor: pointer;
+      transition: all 0.3s;
+
+      &:hover {
+        background-color: #c92a2a;
+        color: #f6f6f6;
+      }
+    }
+
+    & > .todo-form {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      & > h3 {
+        font-size: 2.2rem;
+        color: #495057;
+      }
+
+      & > .todo-form__field:not(:last-of-type) {
+        display: flex;
+        flex-direction: column;
+      }
+
+      & > .todo-form__field:last-of-type {
+        display: flex;
+        gap: 2rem;
+      }
+
+      & > .todo-form__field {
+        & > label {
+          font-size: 1.6rem;
+          color: #495057;
+        }
+
+        & > input,
+        & > select {
+          font-size: 1.8rem;
+          color: #495057;
+          padding: 0.6rem 1.2rem;
+          border: none;
+          outline: none;
+          width: 50vw;
+        }
+      }
+    }
   }
 }

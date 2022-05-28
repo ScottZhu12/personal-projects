@@ -1,23 +1,29 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '../Button';
-import { SelectButton } from '../Button';
 import TodoModal from '../TodoModal';
 
 const Header: React.FC = () => {
+  const [viewType, setViewType] = useState('');
+
+  const onSelectionChanged = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setViewType(e.target.value);
+  };
+
   return (
     <div className='header'>
       <Button btnType='button' btnText='Click Me' btnClass='btn btn--primary' />
-      <SelectButton
+      <select
         name='selectTodo'
         id='selectTodo'
-        selectBtnClass='select-btn'
+        className='header-select'
+        onChange={onSelectionChanged}
       >
         <option value=''></option>
         <option value='all'>All</option>
         <option value='incomplete'>Incomplete</option>
         <option value='complete'>Complete</option>
-      </SelectButton>
+      </select>
       <TodoModal />
     </div>
   );
