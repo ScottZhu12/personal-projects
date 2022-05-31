@@ -1,6 +1,5 @@
 @use './components/PageTitle';
 @use './components/Header';
-@use './components/Button';
 @use './components/TodoModal';
 
 *,
@@ -72,4 +71,23 @@ button {
 .app {
   width: 80vw;
   margin: 0 auto;
+}
+
+.btn {
+  background: none;
+  border: none;
+  font-size: 2rem;
+  border-radius: 0.3rem;
+  padding: 0.6rem 2rem;
+  font-weight: 500;
+
+  &--primary {
+    background-color: #339af0;
+    color: #f6f6f6;
+  }
+
+  &--secondary {
+    background-color: #d0d3d6;
+    color: #495057;
+  }
 }

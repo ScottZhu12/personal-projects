@@ -73,3 +73,13 @@
     }
   }
 }
+
+.form-error {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  font-size: 1.6rem;
+  color: #fa5252;
+  transform: translateX(-50%);
+  text-transform: uppercase;
+}

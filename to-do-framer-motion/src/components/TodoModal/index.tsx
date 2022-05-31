@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 
-import Button from '../Button';
+import { useAppDispatch } from '../../app/hooks';
+import { modalShow } from '../../features/modalSlice';
+import { addNewTodo } from '../../features/todosSlice';
 
 const TodoModal: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   const [title, setTitle] = useState('');
   const [status, setStatus] = useState('');
+  const [formError, setFormError] = useState(false);
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
@@ -13,10 +18,44 @@ const TodoModal: React.FC = () => {
     setStatus(e.target.value);
   };
 
+  const onBtnClick = () => {
+    dispatch(modalShow(false));
+  };
+
+  const canSave = [title, status].every(Boolean);
+
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!canSave) {
+      setFormError(true);
+    }
+
+    if (canSave) {
+      try {
+        dispatch(addNewTodo({ id: '1', title, status }));
+        setTitle('');
+        setStatus('');
+        setFormError(false);
+        dispatch(modalShow(false));
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  const renderedFormError = () => {
+    return <div className='form-error'>Form is not completed</div>;
+  };
+
   return (
-    <div className='todo-modal'>
-      <div className='todo-modal-content'>
-        <div className='todo-modal-content__close'>
+    <div className='todo-modal' onClick={onBtnClick}>
+      <div className='todo-modal-content' onClick={(e) => e.stopPropagation()}>
+        <div
+          className='todo-modal-content__close'
+          onClick={onBtnClick}
+          role='button'
+        >
           <svg
             xmlns='http://www.w3.org/2000/svg'
             className='h-6 w-6'
@@ -33,7 +72,7 @@ const TodoModal: React.FC = () => {
           </svg>
         </div>
 
-        <form className='todo-form'>
+        <form className='todo-form' onSubmit={onFormSubmit}>
           <h3>Add Task</h3>
           <div className='todo-form__field'>
             <label htmlFor='todoTitle'>Title</label>
@@ -43,6 +82,7 @@ const TodoModal: React.FC = () => {
               type='text'
               value={title}
               onChange={onTitleChanged}
+              autoComplete='off'
             />
           </div>
 
@@ -52,6 +92,7 @@ const TodoModal: React.FC = () => {
               name='todoStatus'
               id='todoStatus'
               className='todo-status-select'
+              value={status}
               onChange={onSelectionChanged}
             >
               <option value=''></option>
@@ -61,19 +102,19 @@ const TodoModal: React.FC = () => {
           </div>
 
           <div className='todo-form__field'>
-            <Button
-              btnType='submit'
-              btnText='Add Task'
-              btnClass='btn btn--primary'
-            />
-
-            <Button
-              btnType='button'
-              btnText='Cancel'
-              btnClass='btn btn--secondary'
-            />
+            <button type='submit' className='btn btn--primary'>
+              Add Task
+            </button>
+            <button
+              type='button'
+              className='btn btn--secondary'
+              onClick={onBtnClick}
+            >
+              Cancel
+            </button>
           </div>
         </form>
+        {formError && renderedFormError()}
       </div>
     </div>
   );
