@@ -2,11 +2,11 @@ import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 
 import modalReducer from '../features/modalSlice';
-import todosSlice from '../features/todosSlice';
+import todoSlice from '../features/todosSlice';
 
 const rootReducer = combineReducers({
   modal: modalReducer,
-  todo: todosSlice,
+  todo: todoSlice,
 });
 
 const store = configureStore({

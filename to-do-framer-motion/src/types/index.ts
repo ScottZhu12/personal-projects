@@ -3,9 +3,3 @@ export type TodosListType = {
   title: string;
   status: string;
 };
-
-export interface TodosStateProps {
-  todosList: TodosListType[];
-  status: string;
-  error: string | null;
-}

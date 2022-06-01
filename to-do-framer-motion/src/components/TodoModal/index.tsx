@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useAppDispatch } from '../../app/hooks';
 import { modalShow } from '../../features/modalSlice';
-import { addNewTodo } from '../../features/todosSlice';
+import { addTodo } from '../../features/todosSlice';
 
 const TodoModal: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,7 +33,8 @@ const TodoModal: React.FC = () => {
 
     if (canSave) {
       try {
-        dispatch(addNewTodo({ id: '1', title, status }));
+        dispatch(addTodo({ id: '1', title, status }));
+
         setTitle('');
         setStatus('');
         setFormError(false);

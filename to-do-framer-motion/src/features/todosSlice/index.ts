@@ -1,73 +1,54 @@
-import { createSlice, createAsyncThunk, nanoid } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import { TodosListType, TodosStateProps } from '../../types';
-import { todoTable } from '../../app/data';
+import { checkLocalStorage } from '../../app/data';
+import { TodosListType } from '../../types';
 
-export const fetchTodos = createAsyncThunk('todos/fetchTodos', async () => {
+const getInitialState = () => {
+  checkLocalStorage();
+  let data: TodosListType[] = [];
+
   try {
-    const res = (await todoTable.getItem('todosList')) || [];
+    const res = localStorage.getItem('todoList');
 
-    return res;
+    if (res) {
+      data = [...JSON.parse(res)];
+    }
+
+    return data;
   } catch (err) {
     console.error(err);
   }
-});
-
-export const addNewTodo = createAsyncThunk(
-  'todos/addTodos',
-  async (newPost: TodosListType) => {
-    try {
-      const currentTodos = await todoTable.getItem('todosList');
-
-      if (Array.isArray(currentTodos)) {
-        currentTodos.push(newPost);
-        await todoTable.setItem('todosList', currentTodos);
-      }
-
-      return newPost;
-    } catch (err) {
-      console.error(err);
-    }
-  }
-);
-
-const initialState: TodosStateProps = {
-  todosList: [],
-  status: 'idle',
-  error: null,
 };
 
-const todosSlice = createSlice({
+const initialState = {
+  todoList: getInitialState(),
+};
+
+const todoSlice = createSlice({
   name: 'todos',
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(fetchTodos.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(fetchTodos.fulfilled, (state, action) => {
-        state.status = 'succeeded';
-        const fetchedTodos = action.payload;
-
-        if (Array.isArray(fetchedTodos)) {
-          state.todosList = state.todosList.concat(fetchedTodos);
+  reducers: {
+    addTodo: {
+      reducer: (state, action: PayloadAction<TodosListType>) => {
+        if (state.todoList) {
+          state.todoList.push(action.payload);
         }
-      })
-      .addCase(fetchTodos.rejected, (state, action) => {
-        state.status = 'failed';
-        const errorMessage = action.error.message || 'unknown error occurred';
 
-        state.error = errorMessage;
-      })
-      .addCase(addNewTodo.fulfilled, (state, action) => {
-        const newTodo = action.payload;
-
-        if (Array.isArray(newTodo)) {
-          state.todosList.push(newTodo);
+        try {
+          localStorage.setItem('todoList', JSON.stringify(state.todoList));
+        } catch (err) {
+          console.error(err);
         }
-      });
+      },
+      prepare: (newTodo: TodosListType) => {
+        return {
+          payload: newTodo,
+        };
+      },
+    },
   },
 });
 
-export default todosSlice.reducer;
+export const { addTodo } = todoSlice.actions;
+
+export default todoSlice.reducer;

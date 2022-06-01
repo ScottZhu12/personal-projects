@@ -1,16 +1,9 @@
-import localforage from 'localforage';
-
-export const todoTable = localforage.createInstance({
-  name: 'TodoApp',
-  storeName: 'TodoTable',
-});
-
-export const createInitialTodosList = async () => {
+export const checkLocalStorage = () => {
   try {
-    const todosList = await todoTable.getItem('todosList');
+    const res = localStorage.getItem('todoList');
 
-    if (!todosList) {
-      await todoTable.setItem('todosList', []);
+    if (!res) {
+      localStorage.setItem('todoList', JSON.stringify([]));
     }
   } catch (err) {
     console.error(err);

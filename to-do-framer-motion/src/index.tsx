@@ -6,9 +6,6 @@ import { Provider } from 'react-redux';
 
 import App from './App';
 import store from './app/store';
-import { createInitialTodosList } from './app/data';
-
-createInitialTodosList();
 
 const rootEl = document.getElementById('root');
 if (!rootEl) throw new Error('root element not found');
