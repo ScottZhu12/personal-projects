@@ -1,14 +1,36 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import { useAppDispatch } from '../../app/hooks';
-import { modalShow } from '../../features/modalSlice';
-import { addTodo } from '../../features/todosSlice';
+import { addModalShow, updateModalShow } from '../../features/modalSlice';
+import { addTodo, updateTodo } from '../../features/todosSlice';
+import type { TodosListType } from '../../types';
 
-const TodoModal: React.FC = () => {
+interface TodoModalProps {
+  type: string;
+  todo?: TodosListType;
+}
+
+const TodoModal: React.FC<TodoModalProps> = ({ type, todo }) => {
   const dispatch = useAppDispatch();
 
-  const [title, setTitle] = useState('');
-  const [status, setStatus] = useState('');
+  const checkTitle = () => {
+    if (type === 'update' && todo) {
+      return todo.title;
+    }
+
+    return '';
+  };
+  const checkStatus = () => {
+    if (type === 'update' && todo) {
+      return todo.status;
+    }
+
+    return '';
+  };
+
+  const [title, setTitle] = useState(checkTitle());
+  const [status, setStatus] = useState(checkStatus());
   const [formError, setFormError] = useState(false);
 
   const onTitleChanged = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +41,8 @@ const TodoModal: React.FC = () => {
   };
 
   const onBtnClick = () => {
-    dispatch(modalShow(false));
+    dispatch(addModalShow(false));
+    dispatch(updateModalShow(false));
   };
 
   const canSave = [title, status].every(Boolean);
@@ -33,13 +56,21 @@ const TodoModal: React.FC = () => {
 
     if (canSave) {
       try {
-        dispatch(addTodo({ id: '1', title, status }));
+        if (type === 'update' && todo) {
+          dispatch(updateTodo({ id: todo.id, title, status }));
+          toast.success('Todo Updated Successfully');
+        } else if (type === 'add' && !todo) {
+          dispatch(addTodo({ title, status }));
+          toast.success('Todo added Successfully');
+        }
 
         setTitle('');
         setStatus('');
         setFormError(false);
-        dispatch(modalShow(false));
+        dispatch(addModalShow(false));
+        dispatch(updateModalShow(false));
       } catch (e) {
+        toast.error('Error Occured');
         console.error(e);
       }
     }
@@ -74,7 +105,7 @@ const TodoModal: React.FC = () => {
         </div>
 
         <form className='todo-form' onSubmit={onFormSubmit}>
-          <h3>Add Task</h3>
+          <h3>{type === 'update' ? 'Update Todo' : 'Add Todo'}</h3>
           <div className='todo-form__field'>
             <label htmlFor='todoTitle'>Title</label>
             <input
@@ -104,7 +135,7 @@ const TodoModal: React.FC = () => {
 
           <div className='todo-form__field'>
             <button type='submit' className='btn btn--primary'>
-              Add Task
+              {type === 'update' ? 'Update Todo' : 'Add Todo'}
             </button>
             <button
               type='button'

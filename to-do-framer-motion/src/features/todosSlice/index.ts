@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 
 import { checkLocalStorage } from '../../app/data';
-import { TodosListType } from '../../types';
+import type { TodosListType, newTodoType, updateTodoType } from '../../types';
 
 const getInitialState = () => {
   checkLocalStorage();
@@ -40,15 +40,86 @@ const todoSlice = createSlice({
           console.error(err);
         }
       },
-      prepare: (newTodo: TodosListType) => {
+      prepare: (newTodo: newTodoType) => {
+        const id = nanoid();
+        const { title, status } = newTodo;
+        const time = new Date().toISOString();
+
         return {
-          payload: newTodo,
+          payload: {
+            id,
+            title,
+            status,
+            time,
+          },
+        };
+      },
+    },
+    deleteTodo: {
+      reducer: (state, action: PayloadAction<string>) => {
+        try {
+          const res = localStorage.getItem('todoList');
+
+          if (res) {
+            const todoList = JSON.parse(res);
+            const filteredTodoList = todoList.filter(
+              (todo: TodosListType) => todo.id !== action.payload
+            );
+
+            localStorage.setItem('todoList', JSON.stringify(filteredTodoList));
+            state.todoList = [...filteredTodoList];
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      },
+      prepare: (todo: TodosListType) => {
+        const { id } = todo;
+
+        return {
+          payload: id,
+        };
+      },
+    },
+    updateTodo: {
+      reducer: (state, action: PayloadAction<TodosListType>) => {
+        try {
+          const { id } = action.payload;
+          const res = localStorage.getItem('todoList');
+
+          if (res) {
+            const todoList = JSON.parse(res);
+            const filteredTodoList = todoList.filter(
+              (todo: TodosListType) => todo.id !== id
+            );
+
+            localStorage.setItem(
+              'todoList',
+              JSON.stringify([...filteredTodoList, action.payload])
+            );
+            state.todoList = [...filteredTodoList, action.payload];
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      },
+      prepare: (todo: updateTodoType) => {
+        const { id, title, status } = todo;
+        const time = new Date().toISOString();
+
+        return {
+          payload: {
+            id,
+            title,
+            status,
+            time,
+          },
         };
       },
     },
   },
 });
 
-export const { addTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, updateTodo } = todoSlice.actions;
 
 export default todoSlice.reducer;

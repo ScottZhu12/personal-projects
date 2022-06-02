@@ -1,20 +1,32 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 type modalState = {
-  show: boolean;
+  addShow: boolean;
+  updateShow: boolean;
 };
 
 const initialState: modalState = {
-  show: false,
+  addShow: false,
+  updateShow: false,
 };
 
 const modalSlice = createSlice({
   name: 'modal',
   initialState,
   reducers: {
-    modalShow: {
+    addModalShow: {
       reducer: (state, action: PayloadAction<boolean>) => {
-        state.show = action.payload;
+        state.addShow = action.payload;
+      },
+      prepare: (toggle: boolean) => {
+        return {
+          payload: toggle,
+        };
+      },
+    },
+    updateModalShow: {
+      reducer: (state, action: PayloadAction<boolean>) => {
+        state.updateShow = action.payload;
       },
       prepare: (toggle: boolean) => {
         return {
@@ -25,6 +37,6 @@ const modalSlice = createSlice({
   },
 });
 
-export const { modalShow } = modalSlice.actions;
+export const { addModalShow, updateModalShow } = modalSlice.actions;
 
 export default modalSlice.reducer;

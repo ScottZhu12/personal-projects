@@ -1,6 +1,8 @@
 @use './components/PageTitle';
 @use './components/Header';
 @use './components/TodoModal';
+@use './components/TodoList';
+@use './components/TodoItem';
 
 *,
 *::after,
