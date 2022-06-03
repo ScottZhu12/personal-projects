@@ -31,3 +31,11 @@
 #### • all features from Blog-Post-Async-V1 project <br /> • view a single post <br /> • edit the selected post <br /> • delete the selected post
 
 ##### Live: https://scottzhu-blog-async-v2.netlify.app/
+
+## todo-framer-motion
+
+### A todo-list project implemented with react, redux-toolkit, date-fns, localStorage, framer-motion.<br />Features of this project:
+
+#### • retrive saved todo-list from localStorage <br /> • add a todo to the current list <br /> • edit the selected todo <br /> • delete the selected todo
+
+##### Live: https://scottzhu-todo-list.netlify.app/

@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, nanoid } from '@reduxjs/toolkit';
 
 import { checkLocalStorage } from '../../app/data';
-import type { TodosListType, newTodoType, updateTodoType } from '../../types';
+import type { TodosListType, newTodoType } from '../../types';
 
 const getInitialState = () => {
   checkLocalStorage();
@@ -20,8 +20,16 @@ const getInitialState = () => {
   }
 };
 
-const initialState = {
+interface TodoSliceStateProps {
+  todoList: TodosListType[] | undefined;
+  fetchedTodo: TodosListType | null;
+  filterStatus: string;
+}
+
+const initialState: TodoSliceStateProps = {
   todoList: getInitialState(),
+  fetchedTodo: null,
+  filterStatus: 'all',
 };
 
 const todoSlice = createSlice({
@@ -103,23 +111,27 @@ const todoSlice = createSlice({
           console.error(err);
         }
       },
-      prepare: (todo: updateTodoType) => {
-        const { id, title, status } = todo;
-        const time = new Date().toISOString();
-
+      prepare: (todo: TodosListType) => {
         return {
-          payload: {
-            id,
-            title,
-            status,
-            time,
-          },
+          payload: todo,
         };
       },
+    },
+    fetchTodo: (state, action) => {
+      state.fetchedTodo = action.payload;
+    },
+    changeFilterStatus: (state, action) => {
+      state.filterStatus = action.payload;
     },
   },
 });
 
-export const { addTodo, deleteTodo, updateTodo } = todoSlice.actions;
+export const {
+  addTodo,
+  deleteTodo,
+  updateTodo,
+  fetchTodo,
+  changeFilterStatus,
+} = todoSlice.actions;
 
 export default todoSlice.reducer;

@@ -1,21 +1,63 @@
 import React from 'react';
 import format from 'date-fns/format';
 import toast from 'react-hot-toast';
+import { motion, useMotionValue, useTransform } from 'framer-motion';
 
 import { TodosListType } from '../../types';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { deleteTodo } from '../../features/todosSlice';
-import TodoModal from '../TodoModal';
+import { useAppDispatch } from '../../app/hooks';
 import { updateModalShow } from '../../features/modalSlice';
+import { deleteTodo, fetchTodo, updateTodo } from '../../features/todosSlice';
+
+const boxVariants = {
+  checked: {
+    backgroundColor: '#748ffc',
+    transition: {
+      duration: 0.1,
+    },
+  },
+  unChecked: {
+    backgroundColor: '#e9ecef',
+    transition: {
+      duration: 0.1,
+    },
+  },
+};
+
+const checkVariants = {
+  initial: {
+    color: '#fff',
+  },
+  checked: {
+    pathLength: 1,
+  },
+  unChecked: {
+    pathLength: 0,
+  },
+};
+
+const childVariants = {
+  hidden: {
+    y: 20,
+    opacity: 0,
+  },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 
 interface TodoItemProps {
   todo: TodosListType;
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+  const pathLength = useMotionValue(0);
+  const opacity = useTransform(pathLength, [0.05, 0.15], [0, 1]);
+
   const dispatch = useAppDispatch();
-  const modal = useAppSelector((state) => state.modal.updateShow);
+
   const headingClass = todo.status === 'complete' ? 'heading-complete' : '';
+  const checked = todo.status === 'complete' ? true : false;
 
   const onDeleteBtnClick = () => {
     dispatch(deleteTodo(todo));
@@ -24,11 +66,45 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   };
   const onEditBtnClick = () => {
     dispatch(updateModalShow(true));
+    dispatch(fetchTodo(todo));
+  };
+  const onCheckBtnClick = () => {
+    const changedStatus =
+      todo.status === 'complete' ? 'incomplete' : 'complete';
+    dispatch(
+      updateTodo({
+        id: todo.id,
+        title: todo.title,
+        status: changedStatus,
+        time: todo.time,
+      })
+    );
   };
 
   return (
-    <div className='todo-item'>
-      <div className='todo-item__checkbox'>[]</div>
+    <motion.div className='todo-item' variants={childVariants}>
+      <motion.div
+        className='todo-item__checkbox'
+        variants={boxVariants}
+        animate={checked ? 'checked' : 'unChecked'}
+        onClick={onCheckBtnClick}
+      >
+        <motion.svg
+          xmlns='http://www.w3.org/2000/svg'
+          className='h-5 w-5'
+          viewBox='0 0 20 20'
+          fill='currentColor'
+        >
+          <motion.path
+            variants={checkVariants}
+            animate={checked ? 'checked' : 'unChecked'}
+            style={{ pathLength, opacity }}
+            fillRule='evenodd'
+            d='M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z'
+            clipRule='evenodd'
+          />
+        </motion.svg>
+      </motion.div>
       <div className='todo-item__content'>
         <div className='todo-item__content__detail'>
           <h3 className={headingClass}>{todo.title}</h3>
@@ -62,8 +138,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           </button>
         </div>
       </div>
-      {modal && <TodoModal type='update' todo={todo} />}
-    </div>
+    </motion.div>
   );
 };
 

@@ -9,9 +9,3 @@ export type newTodoType = {
   title: string;
   status: string;
 };
-
-export type updateTodoType = {
-  id: string;
-  title: string;
-  status: string;
-};
