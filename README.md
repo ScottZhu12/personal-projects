@@ -39,3 +39,11 @@
 #### • retrive saved todo-list from localStorage <br /> • add a todo to the current list <br /> • edit the selected todo <br /> • delete the selected todo
 
 ##### Live: https://scottzhu-todo-list.netlify.app/
+
+## esbuild-wasm-demo
+
+### A project using esbuild-wasm to transpile and bundle modules.<br />Features of this project:
+
+#### • transpile some advanced JS syntax (like JSX) into common JS that browser can execute <br /> • handle import statements (JS and CSS) and bundle packages together.
+
+##### Live: https://scottzhu-esbuild-wasm-demo.netlify.app/

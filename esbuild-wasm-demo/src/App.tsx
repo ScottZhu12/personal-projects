@@ -17,7 +17,7 @@ const App: React.FC = () => {
       if (err instanceof Error && err.message.includes('initialize')) {
         esbuild.initialize({
           worker: false,
-          wasmURL: '/esbuild.wasm',
+          wasmURL: 'https://unpkg.com/esbuild-wasm/esbuild.wasm',
         });
       } else {
         throw err;
