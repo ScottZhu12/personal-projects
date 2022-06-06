@@ -1,8 +1,9 @@
 {
-  "name": "esbuild-wasm-demo",
+  "name": "esbuild-wasm-demo-v2",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@monaco-editor/react": "^4.4.5",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
@@ -11,8 +12,11 @@
     "@types/react": "^18.0.11",
     "@types/react-dom": "^18.0.5",
     "axios": "^0.27.2",
+    "bulmaswatch": "^0.8.1",
     "esbuild-wasm": "^0.14.42",
     "localforage": "^1.10.0",
+    "monaco-editor": "^0.33.0",
+    "prettier": "^2.6.2",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-scripts": "5.0.1",
