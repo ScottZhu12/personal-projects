@@ -63,3 +63,11 @@
 #### • show 12 country cards per page <br /> • allow users to navigate between different pages using pagination
 
 ##### Live: https://scottzhu-country-list.netlify.app/
+
+## search-filter
+
+### A basic search component implemented with react, and react-debounce-input<br />Features of this project:
+
+#### • search for users whose first name starts with the provided search query in a debounced input fashion
+
+##### Live: https://scottzhu-search-filter.netlify.app/
