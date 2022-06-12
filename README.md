@@ -55,3 +55,11 @@
 #### • all features included from esbuild-wasm-demo <br /> • allow users to write any JS or JSX code, and the resulting application will be shown in the iframe
 
 ##### Live: https://scottzhu-esbuild-wasm-demo-v2.netlify.app/
+
+## country-list
+
+### A React project implemented with react-paginate<br />Features of this project:
+
+#### • show 12 country cards per page <br /> • allow users to navigate between different pages using pagination
+
+##### Live: https://scottzhu-country-list.netlify.app/
