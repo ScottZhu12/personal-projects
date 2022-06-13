@@ -71,3 +71,11 @@
 #### • search for users whose first name starts with the provided search query in a debounced input fashion
 
 ##### Live: https://scottzhu-search-filter.netlify.app/
+
+## search-filter-v2
+
+### A basic search component implemented with react, and react-debounce-input<br />Features of this project:
+
+#### • search for users whose first name, last name, and email contains the provided search query in a debounced input fashion
+
+##### Live: https://scottzhu-search-filter-v2.netlify.app/
