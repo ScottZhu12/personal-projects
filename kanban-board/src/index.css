@@ -1,0 +1,10 @@
+.app {
+  display: flex;
+  justify-content: space-between;
+  width: 80vw;
+  margin: 0 auto;
+}
+
+.task-card {
+  display: flex;
+}
