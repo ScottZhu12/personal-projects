@@ -2,9 +2,11 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const cors = require('cors');
 
 const dbConnect = require('./db/dbConnect');
 const userModel = require('./db/userModel');
+const auth = require('./auth');
 
 const app = express();
 
@@ -13,6 +15,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
+app.use(cors());
 
 app.get('/', (req, res, next) => {
   res.json({ message: 'hey, this is your server response' });
@@ -97,6 +100,21 @@ app.post('/login', async (req, res) => {
       err,
     });
   }
+});
+
+// protect endpoints from unauthenticated users
+// free endpoint
+app.get('/free-endpoint', (req, res) => {
+  res.json({
+    message: 'you are free to access me anytime',
+  });
+});
+
+// authentication endpoint
+app.get('/auth-endpoint', auth, (req, res) => {
+  res.json({
+    message: 'you are authorized to access me',
+  });
 });
 
 module.exports = app;
