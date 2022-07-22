@@ -79,3 +79,11 @@
 #### • search for users whose first name, last name, and email contains the provided search query in a debounced input fashion
 
 ##### Live: https://scottzhu-search-filter-v2.netlify.app/
+
+## auth-app
+
+### A MERN stack authentication application<br />Features of this project:
+
+#### • register a new account<br />• login with existing user name and password<br />• logout current user
+
+##### Live: https://scottzhu-auth-app.netlify.app/

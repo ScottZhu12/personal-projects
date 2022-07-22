@@ -6,6 +6,7 @@ import Account from './Account';
 import FreeComponent from './FreeComponent';
 import AuthComponent from './AuthComponent';
 import Layout from './Layout';
+import ProtectedRoutes from './ProtectedRoutes';
 
 const App = () => {
   return (
@@ -14,7 +15,14 @@ const App = () => {
         <Route path='/' element={<Layout />}>
           <Route index element={<Account />} />
           <Route path='/free' element={<FreeComponent />} />
-          <Route path='/auth' element={<AuthComponent />} />
+          <Route
+            path='/auth'
+            element={
+              <ProtectedRoutes>
+                <AuthComponent />
+              </ProtectedRoutes>
+            }
+          />
         </Route>
       </Routes>
     </Container>
