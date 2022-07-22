@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import axios from 'axios';
+import Cookies from 'universal-cookie';
+import { Navigate } from 'react-router-dom';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [login, setLogin] = useState(false);
+
+  const cookies = new Cookies();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,9 +24,15 @@ const Login = () => {
     };
 
     try {
-      await axios(configuration);
+      const res = await axios(configuration);
+
+      // set the cookie
+      cookies.set('TOKEN', res.data.token, { path: '/' });
 
       setLogin(true);
+
+      // redirect user to the auth page
+      <Navigate to='/auth' replace={true} />;
     } catch (err) {
       console.log(err);
     }
